@@ -35,3 +35,6 @@ supabase/.temp/
 
 # n8n datos persistentes
 n8n-local/data/
+
+#documentation
+documentation/
