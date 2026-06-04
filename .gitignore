@@ -27,5 +27,11 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Claude Code local config
+.claude/
+
+# Supabase temp
+supabase/.temp/
+
 # n8n datos persistentes
 n8n-local/data/
