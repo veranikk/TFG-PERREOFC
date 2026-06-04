@@ -37,4 +37,5 @@ supabase/.temp/
 n8n-local/data/
 
 #documentation
-documentation/
+/documentation/
+
