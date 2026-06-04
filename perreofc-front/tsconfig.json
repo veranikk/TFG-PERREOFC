@@ -1,0 +1,27 @@
+// TypeScript compiler configuration for the Expo frontend.
+// It extends Expo defaults and defines strictness plus path aliases.
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@src/*": ["./src/*"],
+      "@theme/*": ["./src/theme/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@store/*": ["./src/store/*"],
+      "@services/*": ["./src/services/*"],
+      "@mocks/*": ["./src/mocks/*"],
+      "@types/*": ["./src/types/*"],
+      "@i18n/*": ["./src/i18n/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
+  ]
+}

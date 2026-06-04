@@ -1,0 +1,21 @@
+# Git ignore rules for generated backend files and local secrets.
+# It keeps dependencies, builds and machine-specific files out of version control.
+
+node_modules
+dist
+.env
+.env.*.local
+*.log
+.DS_Store
+playwright-report
+test-results
+pnpm-lock.yaml
+package-lock.json
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+.claude

@@ -1,0 +1,7 @@
+# YAML configuration for perreofc-back: pnpm workspace.
+# It configures tooling, workspace behavior or service orchestration.
+
+packages:
+  - "."
+allowBuilds:
+  esbuild: true

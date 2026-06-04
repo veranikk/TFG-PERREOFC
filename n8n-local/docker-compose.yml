@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      # Los datos de la BBDD de n8n viven en ./data/postgres/
+      # Así migrar a otro PC = copiar la carpeta del proyecto entera
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    restart: unless-stopped
+    ports:
+      # Acceso al editor: http://localhost:5678
+      - "${N8N_PORT:-5678}:5678"
+    environment:
+      # Conexión a Postgres (el de arriba)
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB}
+      DB_POSTGRESDB_USER: ${POSTGRES_USER}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      # Autenticación básica para acceder al editor
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
+
+      # Clave para encriptar credenciales guardadas en n8n
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+
+      # Zona horaria (para los Schedule Triggers)
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE}
+      TZ: ${TZ}
+
+      # En local, http es suficiente
+      N8N_PROTOCOL: http
+      N8N_HOST: localhost
+      N8N_PORT: 5678
+
+      # Silencia warnings que aparecen al usar configuraciones por defecto
+      N8N_RUNNERS_ENABLED: "true"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+    volumes:
+      # Datos internos de n8n (no críticos si usas Postgres, pero por si acaso)
+      - ./data/n8n:/home/node/.n8n
+    depends_on:
+      postgres:
+        condition: service_healthy

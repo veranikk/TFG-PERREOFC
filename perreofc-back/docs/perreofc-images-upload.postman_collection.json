@@ -1,0 +1,347 @@
+{
+  "_comment": "Postman collection that documents and tests backend image/upload endpoints for Perreo FC.",
+  "info": {
+    "name": "PerreoFC — Images & Upload",
+    "_postman_id": "perreofc-images-upload-v1",
+    "description": "Endpoints para gestión de imágenes de jugadores, staff y noticias, más subida de archivos a Supabase Storage.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl",   "value": "http://localhost:3000/api/v1",  "type": "string" },
+    { "key": "token",     "value": "<bearer_token_aqui>",           "type": "string" },
+    { "key": "playerId",  "value": "1",                             "type": "string" },
+    { "key": "staffId",   "value": "1",                             "type": "string" },
+    { "key": "newsId",    "value": "<uuid-articulo>",               "type": "string" },
+    { "key": "imageId",   "value": "<uuid-imagen>",                 "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Player Images",
+      "item": [
+        {
+          "name": "GET /players/:id/images",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/players/{{playerId}}/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["players", "{{playerId}}", "images"]
+            },
+            "description": "Devuelve todas las imágenes no eliminadas del jugador."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /players/:id/images",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/foto-jugador.jpg\",\n  \"is_profile\": false,\n  \"description\": \"Foto entrenamiento\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/players/{{playerId}}/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["players", "{{playerId}}", "images"]
+            },
+            "description": "Inserta una nueva imagen para el jugador. Guarda el imageId de la respuesta en la variable {{imageId}}."
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH /players/:id/images/:imageId/set-profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/players/{{playerId}}/images/{{imageId}}/set-profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["players", "{{playerId}}", "images", "{{imageId}}", "set-profile"]
+            },
+            "description": "Marca la imagen como foto de perfil del jugador y actualiza players.photo_url."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /players/:id/images/:imageId",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/players/{{playerId}}/images/{{imageId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["players", "{{playerId}}", "images", "{{imageId}}"]
+            },
+            "description": "Soft delete — establece deleted_at en la imagen."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Staff Images",
+      "item": [
+        {
+          "name": "GET /staff/:id/images",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/staff/{{staffId}}/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["staff", "{{staffId}}", "images"]
+            },
+            "description": "Devuelve todas las imágenes no eliminadas del miembro del staff."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /staff/:id/images",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/foto-staff.jpg\",\n  \"is_profile\": true,\n  \"description\": \"Foto oficial\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/staff/{{staffId}}/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["staff", "{{staffId}}", "images"]
+            },
+            "description": "Inserta una nueva imagen para el miembro del staff."
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH /staff/:id/images/:imageId/set-profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/staff/{{staffId}}/images/{{imageId}}/set-profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["staff", "{{staffId}}", "images", "{{imageId}}", "set-profile"]
+            },
+            "description": "Marca la imagen como foto de perfil del staff y actualiza staff_members.photo_url."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /staff/:id/images/:imageId",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/staff/{{staffId}}/images/{{imageId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["staff", "{{staffId}}", "images", "{{imageId}}"]
+            },
+            "description": "Soft delete — establece deleted_at en la imagen del staff."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "News Image",
+      "item": [
+        {
+          "name": "POST /news/:id/image",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/portada-noticia.jpg\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsId}}/image",
+              "host": ["{{baseUrl}}"],
+              "path": ["news", "{{newsId}}", "image"]
+            },
+            "description": "Actualiza image_url en el artículo de noticias."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /news/:id/image",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsId}}/image",
+              "host": ["{{baseUrl}}"],
+              "path": ["news", "{{newsId}}", "image"]
+            },
+            "description": "Elimina la imagen del artículo (image_url = null)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Upload",
+      "item": [
+        {
+          "name": "POST /upload/player/:playerId",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Archivo de imagen a subir (max 10MB)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/player/{{playerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "player", "{{playerId}}"]
+            },
+            "description": "Sube una foto de jugador a Supabase Storage. Devuelve publicUrl para usar en POST /players/:id/images."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /upload/staff/:staffId",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Archivo de imagen a subir (max 10MB)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/staff/{{staffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "staff", "{{staffId}}"]
+            },
+            "description": "Sube una foto de staff a Supabase Storage."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /upload/news/:articleId",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Imagen de portada para la noticia (max 10MB)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/news/{{newsId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "news", "{{newsId}}"]
+            },
+            "description": "Sube la imagen de portada de una noticia a Supabase Storage."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /upload/media",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Imagen o vídeo para la galería (max 10MB)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/media",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "media"]
+            },
+            "description": "Sube un archivo a la galería multimedia. Disponible para cualquier usuario autenticado."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /upload/from-url",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/view\",\n  \"bucket\": \"player-photos\",\n  \"path\": \"1/foto_desde_drive.jpg\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/from-url",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "from-url"]
+            },
+            "description": "Descarga un archivo desde una URL (soporta Google Drive) y lo sube a Supabase Storage. Los enlaces de Google Drive se transforman automáticamente al formato de descarga directa."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

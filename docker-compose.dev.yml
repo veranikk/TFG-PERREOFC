@@ -1,0 +1,179 @@
+# ═══════════════════════════════════════════════════════════════
+# PERREOFC MONOREPO — Docker Compose Dev
+#
+# Uso:
+#   docker compose -f docker-compose.dev.yml up --build
+#   docker compose -f docker-compose.dev.yml down
+#   docker compose -f docker-compose.dev.yml down -v   # borra volúmenes
+#
+# Requisito: tener .env relleno en esta misma carpeta.
+# ═══════════════════════════════════════════════════════════════
+
+name: perreofc-dev
+
+services:
+
+  # ── PostgreSQL (base de datos de n8n) ──────────────────────────
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      # Bind mount: preserva los datos ya existentes en n8n-local/data/
+      - ./n8n-local/data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - perreofc
+
+  # ── n8n ────────────────────────────────────────────────────────
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    restart: unless-stopped
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB}
+      DB_POSTGRESDB_USER: ${POSTGRES_USER}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE}
+      TZ: ${TZ}
+      N8N_PROTOCOL: http
+      N8N_HOST: localhost
+      N8N_PORT: 5678
+      N8N_RUNNERS_ENABLED: "true"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+    volumes:
+      - ./n8n-local/data/n8n:/home/node/.n8n
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - perreofc
+
+  # ── Chat server (Fastify bridge hacia n8n) ─────────────────────
+  n8n-chat:
+    build:
+      context: ./n8n-local
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "${CHAT_PORT:-3002}:3002"
+    environment:
+      PORT: ${CHAT_PORT:-3002}
+      HOST: 0.0.0.0
+      NODE_ENV: development
+      # El chat server llama a n8n por nombre de servicio Docker
+      N8N_WEBHOOK_URL: ${N8N_CHAT_WEBHOOK_URL}
+    volumes:
+      - ./n8n-local:/app
+      - n8n_chat_node_modules:/app/node_modules
+    depends_on:
+      - n8n
+    networks:
+      - perreofc
+
+  # ── Scraper (Playwright) ────────────────────────────────────────
+  scraper:
+    build:
+      context: ./TFG-PERREOFC-SCRAPEO
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "${SCRAPER_PORT:-3001}:3001"
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      SCRAPER_PORT: ${SCRAPER_PORT:-3001}
+      NODE_ENV: development
+      OWN_TEAM_ID: ${OWN_TEAM_ID}
+      INTERNAL_TOKEN: ${INTERNAL_TOKEN}
+      CORS_ORIGIN: ${CORS_ORIGIN:-}
+    volumes:
+      - ./TFG-PERREOFC-SCRAPEO:/app
+      - scraper_node_modules:/app/node_modules
+    networks:
+      - perreofc
+
+  # ── Backend (Fastify API) ───────────────────────────────────────
+  backend:
+    build:
+      context: ./perreofc-back
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      API_PORT: ${API_PORT:-3000}
+      NODE_ENV: development
+      OWN_TEAM_ID: ${OWN_TEAM_ID}
+      FRONTEND_URL: ${FRONTEND_URL:-}
+      GMAIL_USER: ${GMAIL_USER}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
+      # Hardcoded al nombre de servicio Docker — no usar localhost aquí
+      N8N_WEBHOOK_URL: http://n8n:5678/webhook/perreito-chatbot
+    volumes:
+      - ./perreofc-back:/app
+      - backend_node_modules:/app/node_modules
+    depends_on:
+      - n8n
+      - scraper
+    networks:
+      - perreofc
+
+  # ── Frontend (Expo React Native) ────────────────────────────────
+  # Nota: expo start --tunnel requiere acceso a internet para ngrok.
+  # Si el hot reload no responde, añade estas vars de entorno:
+  #   CHOKIDAR_USEPOLLING: "true"
+  #   WATCHPACK_POLLING: "true"
+  frontend:
+    build:
+      context: ./perreofc-front
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+      - "8081:8081"
+      - "4040:4040"
+    environment:
+      # IP LAN del host para que el móvil alcance el backend
+      EXPO_PUBLIC_API_URL: ${EXPO_PUBLIC_API_URL}
+      EXPO_NO_TELEMETRY: "1"
+      EXPO_TOKEN: ${EXPO_TOKEN:-}
+      # Descomenta si necesitas token ngrok para --tunnel estable:
+      # NGROK_AUTH_TOKEN: ${NGROK_AUTH_TOKEN:-}
+    tty: true
+    volumes:
+      - ./perreofc-front:/app
+      - frontend_node_modules:/app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - perreofc
+
+volumes:
+  backend_node_modules:
+  scraper_node_modules:
+  frontend_node_modules:
+  n8n_chat_node_modules:
+
+networks:
+  perreofc:
+    driver: bridge

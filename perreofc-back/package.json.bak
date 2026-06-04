@@ -1,0 +1,31 @@
+{
+  "_comment": "Backup backend package manifest kept as a previous dependency/script reference.",
+  "name": "perreo-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:scrapers": "tsx watch src/server.scrapers.ts",
+    "dev:api": "tsx watch src/server.api.ts",
+    "build": "tsc",
+    "start:scrapers": "node dist/server.scrapers.js",
+    "start:api": "node dist/server.api.js",
+    "typecheck": "tsc --noEmit",
+    "db:types": "npx supabase gen types typescript --project-id sbgqqnvgywxpemqhiaxa --schema public > src/shared/types/database.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@supabase/supabase-js": "^2.46.1",
+    "dotenv": "^16.4.5",
+    "fastify": "^5.8.5",
+    "jose": "^6.2.3",
+    "playwright": "^1.59.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^22.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

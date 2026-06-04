@@ -1,0 +1,308 @@
+{
+  "_comment": "Catalan translation catalog for the frontend interface.",
+  "common": {
+    "cancel": "",
+    "save": "",
+    "delete": "",
+    "edit": "",
+    "close": "",
+    "confirm": "",
+    "back": "",
+    "loading": "",
+    "error": "",
+    "retry": "",
+    "search": "",
+    "filter": "",
+    "seeMore": "",
+    "yes": "",
+    "no": "",
+    "send": "",
+    "publish": "",
+    "preview": "",
+    "add": "",
+    "share": "",
+    "accept": "",
+    "optional": ""
+  },
+  "auth": {
+    "welcomeBack": "",
+    "welcomeSubtitle": "",
+    "email": "",
+    "emailPlaceholder": "",
+    "password": "",
+    "passwordPlaceholder": "",
+    "rememberMe": "",
+    "forgotPassword": "",
+    "login": "",
+    "loginLoading": "",
+    "noAccount": "",
+    "register": "",
+    "createAccount": "",
+    "createAccountSubtitle": "",
+    "username": "",
+    "usernamePlaceholder": "",
+    "firstName": "",
+    "firstNamePlaceholder": "",
+    "lastName": "",
+    "lastNamePlaceholder": "",
+    "confirmPassword": "",
+    "confirmPasswordPlaceholder": "",
+    "acceptTerms": "",
+    "registerButton": "",
+    "alreadyHaveAccount": "",
+    "loginLink": "",
+    "recoverPassword": "",
+    "recoverSubtitle": "",
+    "sendCode": "",
+    "loginError": ""
+  },
+  "validation": {
+    "required": "",
+    "emailInvalid": "",
+    "passwordMin": "",
+    "passwordMatch": "",
+    "usernameInvalid": "",
+    "usernameMin": "",
+    "acceptTermsRequired": ""
+  },
+  "tabs": {
+    "calendar": "",
+    "news": "",
+    "chatbot": "",
+    "team": "",
+    "users": "",
+    "management": ""
+  },
+  "calendar": {
+    "title": "",
+    "classification": "",
+    "addEvent": "",
+    "noEvents": "",
+    "eventDetail": "",
+    "tabs": {
+      "lineup": "",
+      "stats": "",
+      "season": ""
+    },
+    "status": {
+      "upcoming": "",
+      "live": "",
+      "finished": ""
+    },
+    "bet": {
+      "title": "",
+      "goalsLocal": "",
+      "goalsVisitor": "",
+      "cost": "",
+      "button": "",
+      "noBalance": "",
+      "success": ""
+    },
+    "mvp": {
+      "title": "",
+      "subtitle": "",
+      "voted": "",
+      "closed": ""
+    },
+    "squad": {
+      "title": "",
+      "called": "",
+      "notCalled": "",
+      "callTime": "",
+      "kit": ""
+    },
+    "weather": {
+      "title": "",
+      "humidity": "",
+      "wind": ""
+    },
+    "modal": {
+      "title": "",
+      "eventTitle": "",
+      "description": "",
+      "type": "",
+      "date": "",
+      "time": "",
+      "location": "",
+      "visibility": "",
+      "types": {
+        "match": "",
+        "friendly": "",
+        "training": "",
+        "medical": "",
+        "dinner": "",
+        "meeting": "",
+        "other": ""
+      }
+    }
+  },
+  "news": {
+    "title": "",
+    "tabNews": "",
+    "tabImages": "",
+    "readTime": "",
+    "addNews": "",
+    "addMedia": "",
+    "modal": {
+      "newsTitle": "",
+      "newsTitlePlaceholder": "",
+      "description": "",
+      "descriptionPlaceholder": "",
+      "media": "",
+      "device": "",
+      "drive": "",
+      "dropbox": "",
+      "featured": "",
+      "schedule": "",
+      "place": "",
+      "type": "",
+      "photo": "",
+      "video": ""
+    }
+  },
+  "team": {
+    "title": "",
+    "positions": {
+      "goalkeepers": "",
+      "defenders": "",
+      "midfielders": "",
+      "forwards": "",
+      "staff": ""
+    },
+    "stats": {
+      "matches": "",
+      "goals": "",
+      "assists": "",
+      "yellowCards": "",
+      "redCards": "",
+      "minutes": ""
+    },
+    "dorsal": "",
+    "position": "",
+    "editStats": ""
+  },
+  "chatbot": {
+    "greeting": "",
+    "question": "",
+    "inputPlaceholder": "",
+    "suggestions": {
+      "nextMatch": "",
+      "points": "",
+      "member": "",
+      "training": ""
+    }
+  },
+  "leaderboard": {
+    "title": "",
+    "tabs": {
+      "daily": "",
+      "monthly": "",
+      "global": ""
+    },
+    "points": "",
+    "you": ""
+  },
+  "profile": {
+    "title": "",
+    "editProfile": "",
+    "editReadOnly": "",
+    "changePassword": "",
+    "notifications": {
+      "push": "",
+      "squad": "",
+      "results": "",
+      "news": "",
+      "ranking": "",
+      "reminders": "",
+      "email": "",
+      "newsletter": "",
+      "official": ""
+    },
+    "theme": "",
+    "language": "",
+    "terms": "",
+    "privacy": "",
+    "about": "",
+    "logout": "",
+    "logoutConfirm": "",
+    "themeLight": "",
+    "themeDark": "",
+    "themeSystem": "",
+    "password": {
+      "current": "",
+      "new": "",
+      "confirm": "",
+      "rules": "",
+      "save": ""
+    },
+    "languages": {
+      "es": "",
+      "en": "",
+      "ca": ""
+    }
+  },
+  "classification": {
+    "title": "",
+    "season": "",
+    "group": "",
+    "headers": {
+      "pos": "",
+      "team": "",
+      "pts": "",
+      "pj": "",
+      "w": "",
+      "d": "",
+      "l": "",
+      "gf": "",
+      "gc": "",
+      "sanction": ""
+    }
+  },
+  "users": {
+    "title": "",
+    "addUser": "",
+    "roles": {
+      "aficionado": "",
+      "jugador": "",
+      "admin": "",
+      "superadmin": ""
+    },
+    "actions": {
+      "changeRole": "",
+      "resetPassword": "",
+      "ban": "",
+      "unban": "",
+      "delete": "",
+      "history": ""
+    },
+    "status": {
+      "active": "",
+      "banned": ""
+    }
+  },
+  "management": {
+    "title": "",
+    "cards": {
+      "points": "",
+      "pointsDesc": "",
+      "leaderboard": "",
+      "leaderboardDesc": "",
+      "notifications": "",
+      "notificationsDesc": "",
+      "logs": "",
+      "logsDesc": "",
+      "branding": "",
+      "brandingDesc": ""
+    },
+    "points": {
+      "title": "",
+      "actions": {
+        "register": "",
+        "dailyLogin": "",
+        "voteMvp": "",
+        "bet": "",
+        "winBet": ""
+      }
+    }
+  }
+}

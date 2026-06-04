@@ -1,0 +1,7 @@
+# Git ignore rules for generated scraper files and local secrets.
+# It keeps env files, dependencies and build output out of version control.
+
+/.env
+.claude
+node_modules
+dist

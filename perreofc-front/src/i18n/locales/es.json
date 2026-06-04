@@ -1,0 +1,309 @@
+{
+  "_comment": "Spanish translation catalog for the frontend interface.",
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "retry": "Reintentar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "seeMore": "Ver más",
+    "yes": "Sí",
+    "no": "No",
+    "send": "Enviar",
+    "publish": "Publicar",
+    "preview": "Vista previa",
+    "add": "Añadir",
+    "share": "Compartir",
+    "accept": "Aceptar",
+    "optional": "opcional"
+  },
+  "auth": {
+    "welcomeBack": "¡Bienvenido de vuelta!",
+    "welcomeSubtitle": "Inicia sesión para seguir a tu equipo",
+    "email": "Email",
+    "emailPlaceholder": "tu@email.com",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Contraseña",
+    "rememberMe": "Recuérdame",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "login": "Iniciar sesión",
+    "loginLoading": "Entrando...",
+    "noAccount": "¿No tienes cuenta?",
+    "register": "Regístrate",
+    "createAccount": "Crea tu cuenta",
+    "createAccountSubtitle": "Únete a la comunidad de Perreo FC",
+    "username": "Nombre de usuario",
+    "usernamePlaceholder": "p.ej: user_perreofc",
+    "firstName": "Nombre",
+    "firstNamePlaceholder": "Tu nombre",
+    "lastName": "Apellidos",
+    "lastNamePlaceholder": "Tus apellidos",
+    "confirmPassword": "Confirmar contraseña",
+    "confirmPasswordPlaceholder": "Confirmar contraseña",
+    "acceptTerms": "Acepto los términos y condiciones",
+    "registerButton": "Registrarme",
+    "alreadyHaveAccount": "¿Ya tienes cuenta?",
+    "loginLink": "Inicia sesión",
+    "recoverPassword": "Recupera tu contraseña",
+    "recoverSubtitle": "Te enviaremos un código a tu email",
+    "sendCode": "Enviar código",
+    "loginError": "Email o contraseña incorrectos"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "emailInvalid": "Email no válido",
+    "passwordMin": "Mínimo 8 caracteres",
+    "passwordMatch": "Las contraseñas no coinciden",
+    "usernameInvalid": "Solo letras, números y guiones bajos",
+    "usernameMin": "Mínimo 3 caracteres",
+    "acceptTermsRequired": "Debes aceptar los términos"
+  },
+  "tabs": {
+    "calendar": "Calendario",
+    "news": "Noticias",
+    "chatbot": "Chatbot",
+    "team": "Equipo",
+    "users": "Usuarios",
+    "management": "Gestión"
+  },
+  "calendar": {
+    "title": "Calendario",
+    "classification": "Clasificación",
+    "addEvent": "+ Añadir evento",
+    "noEvents": "Sin eventos este día",
+    "eventDetail": "Detalle del partido",
+    "tabs": {
+      "lineup": "Alineación",
+      "stats": "Estadísticas",
+      "season": "Temporada"
+    },
+    "status": {
+      "upcoming": "Próximo",
+      "live": "En directo",
+      "finished": "Finalizado"
+    },
+    "bet": {
+      "title": "Apuesta con tus 🍑",
+      "goalsLocal": "Goles local",
+      "goalsVisitor": "Goles visitante",
+      "cost": "Coste: 50 🍑",
+      "button": "Apostar",
+      "noBalance": "No tienes suficientes 🍑",
+      "success": "¡Apuesta realizada!"
+    },
+    "mvp": {
+      "title": "Vota al MVP",
+      "subtitle": "Elige al mejor jugador del partido",
+      "voted": "¡Has votado! +20 🍑",
+      "closed": "Votación cerrada"
+    },
+    "squad": {
+      "title": "Convocatoria",
+      "called": "✅ Sí, estás convocado",
+      "notCalled": "❌ No convocado",
+      "callTime": "Hora de citación",
+      "kit": "Kit"
+    },
+    "weather": {
+      "title": "Meteorología",
+      "humidity": "Humedad",
+      "wind": "Viento"
+    },
+    "modal": {
+      "title": "Añadir evento",
+      "eventTitle": "Título",
+      "description": "Descripción",
+      "type": "Tipo",
+      "date": "Fecha",
+      "time": "Hora",
+      "location": "Lugar",
+      "visibility": "Visibilidad",
+      "types": {
+        "match": "Partido oficial",
+        "friendly": "Amistoso",
+        "training": "Entrenamiento",
+        "medical": "Reconocimiento médico",
+        "dinner": "Cena / Evento",
+        "meeting": "Reunión",
+        "other": "Otro"
+      }
+    }
+  },
+  "news": {
+    "title": "Noticias",
+    "tabNews": "Noticias",
+    "tabImages": "Imágenes",
+    "readTime": "min de lectura",
+    "addNews": "Añadir noticia",
+    "addMedia": "Añadir foto/vídeo",
+    "modal": {
+      "newsTitle": "Título",
+      "newsTitlePlaceholder": "Titular de la noticia",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Cuerpo de la noticia...",
+      "media": "Imagen / Vídeo",
+      "device": "Desde el dispositivo",
+      "drive": "Google Drive",
+      "dropbox": "Dropbox",
+      "featured": "Destacar noticia",
+      "schedule": "Programar publicación",
+      "place": "Lugar",
+      "type": "Tipo",
+      "photo": "Foto",
+      "video": "Vídeo"
+    }
+  },
+  "team": {
+    "title": "Equipo",
+    "positions": {
+      "goalkeepers": "Porteros",
+      "defenders": "Defensas",
+      "midfielders": "Medios",
+      "forwards": "Delanteros",
+      "staff": "Staff"
+    },
+    "stats": {
+      "matches": "Partidos",
+      "goals": "Goles",
+      "assists": "Asistencias",
+      "yellowCards": "Amarillas",
+      "redCards": "Rojas",
+      "minutes": "Minutos"
+    },
+    "dorsal": "Dorsal",
+    "position": "Posición",
+    "editStats": "Editar estadísticas"
+  },
+  "chatbot": {
+    "greeting": "¡Hola, {name}!",
+    "question": "¿Sobre qué quieres hablar hoy?",
+    "inputPlaceholder": "Escribe tu pregunta...",
+    "suggestions": {
+      "nextMatch": "Próximo partido",
+      "points": "Sistema de puntos",
+      "member": "Hacerse socio",
+      "training": "Entrenamientos"
+    }
+  },
+  "leaderboard": {
+    "title": "Ranking Perreo",
+    "tabs": {
+      "daily": "Diario",
+      "monthly": "Mensual",
+      "global": "Global"
+    },
+    "points": "🍑",
+    "you": "Tú"
+  },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar perfil",
+    "editReadOnly": "Contacta con el staff para modificar tus datos",
+    "changePassword": "Cambiar contraseña",
+    "notifications": "Notificaciones",
+    "theme": "Tema",
+    "language": "Idioma",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de privacidad",
+    "about": "Acerca de",
+    "logout": "Cerrar sesión",
+    "logoutConfirm": "¿Seguro que quieres cerrar sesión?",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "themeSystem": "Sistema",
+    "password": {
+      "current": "Contraseña actual",
+      "new": "Nueva contraseña",
+      "confirm": "Confirmar contraseña",
+      "rules": "Mínimo 8 caracteres, una mayúscula y un número",
+      "save": "Guardar contraseña"
+    },
+    "notifications": {
+      "push": "Notificaciones push",
+      "squad": "Convocatorias",
+      "results": "Resultados",
+      "news": "Noticias",
+      "ranking": "Ranking",
+      "reminders": "Recordatorios",
+      "email": "Notificaciones por email",
+      "newsletter": "Newsletter",
+      "official": "Comunicados oficiales"
+    },
+    "languages": {
+      "es": "Español",
+      "en": "English",
+      "ca": "Català"
+    }
+  },
+  "classification": {
+    "title": "Clasificación",
+    "season": "Temporada 2025/2026",
+    "group": "Grupo A",
+    "headers": {
+      "pos": "#",
+      "team": "Equipo",
+      "pts": "PTS",
+      "pj": "PJ",
+      "w": "G",
+      "d": "E",
+      "l": "P",
+      "gf": "GF",
+      "gc": "GC",
+      "sanction": "San"
+    }
+  },
+  "users": {
+    "title": "Usuarios",
+    "addUser": "Nuevo usuario",
+    "roles": {
+      "aficionado": "Aficionado",
+      "jugador": "Jugador",
+      "admin": "Admin",
+      "superadmin": "SuperAdmin"
+    },
+    "actions": {
+      "changeRole": "Cambiar rol",
+      "resetPassword": "Resetear contraseña",
+      "ban": "Banear",
+      "unban": "Desbanear",
+      "delete": "Eliminar usuario",
+      "history": "Historial"
+    },
+    "status": {
+      "active": "Activo",
+      "banned": "Baneado"
+    }
+  },
+  "management": {
+    "title": "Gestión",
+    "cards": {
+      "points": "Sistema de puntos",
+      "pointsDesc": "Configura los 🍑 por cada acción",
+      "leaderboard": "Top Fans",
+      "leaderboardDesc": "Resetear y ajustar rankings",
+      "notifications": "Notificaciones",
+      "notificationsDesc": "Enviar push globales o segmentadas",
+      "logs": "Logs del sistema",
+      "logsDesc": "Actividad y auditoría",
+      "branding": "Branding",
+      "brandingDesc": "Nombre, logo y colores del club"
+    },
+    "points": {
+      "title": "Sistema de puntos",
+      "actions": {
+        "register": "Registro",
+        "dailyLogin": "Login diario",
+        "voteMvp": "Votar MVP",
+        "bet": "Apostar",
+        "winBet": "Acertar apuesta"
+      }
+    }
+  }
+}

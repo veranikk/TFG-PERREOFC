@@ -1,0 +1,57 @@
+# Container or runtime configuration for the scraper project: docker compose.
+# It describes how the scraper service is built, configured or launched.
+
+version: '3.8'
+
+services:
+  scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: perreofc-scraper
+    ports:
+      - "${SCRAPER_PORT:-3001}:${SCRAPER_PORT:-3001}"
+    environment:
+      - NODE_ENV=production
+      - SCRAPER_PORT=${SCRAPER_PORT:-3001}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${SCRAPER_PORT:-3001}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - perreofc-network
+    depends_on:
+      - supabase
+
+  # Servicio Supabase (PostgreSQL)
+  supabase:
+    image: supabase/postgres:15-alpine
+    container_name: perreofc-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-perreofc}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - perreofc-network
+
+networks:
+  perreofc-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,8 @@
+/**
+ * Global stylesheet loaded by the Expo/NativeWind frontend.
+ * It defines app-wide CSS utilities and base styles used across screens.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

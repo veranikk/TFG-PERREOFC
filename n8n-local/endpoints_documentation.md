@@ -1,0 +1,96 @@
+# Documentación de Endpoints del Backend
+
+A continuación se expone la estructura en formato de árbol de todos los endpoints disponibles en el backend de la aplicación, detallando el método HTTP, la ruta y una breve descripción de lo que devuelven, sus parámetros y si requieren autenticación.
+
+- docs
+  - endpoints
+    - auth
+      - **POST** `/login`: Inicio de sesión del usuario. Devuelve el token JWT e información del usuario.
+    - bets
+      - **POST** `/bets`: Crear o realizar una apuesta. _(Requiere Auth)_
+      - **GET** `/bets`: Obtener las apuestas del usuario actual. _(Requiere Auth)_
+      - **POST** `/bets/settle`: Resolver las apuestas de los partidos finalizados. _(Requiere Auth, Admin)_
+      - **GET** `/matches/:matchId/bets`: Obtener las apuestas del usuario para un partido específico. _(Requiere Auth)_
+      - **PUT** `/bets/:betId`: Modificar o editar una apuesta existente. _(Requiere Auth)_
+      - **DELETE** `/bets/:betId`: Cancelar una apuesta. _(Requiere Auth)_
+      - **GET** `/users/me/bets/statistics`: Obtener las estadísticas personales de apuestas del usuario. _(Requiere Auth)_
+      - **GET** `/leaderboard/bets`: Obtener el ranking de los mejores apostadores. Admite query `limit`. _(Requiere Auth)_
+    - classification
+      - **GET** `/classification`: Obtiene la tabla de clasificación general. _(Requiere Auth)_
+    - competitions
+      - **GET** `/seasons/:seasonId/competitions`: Obtener todas las competiciones para una temporada. Admite query `gameTypeId`.
+      - **GET** `/competitions/:competitionId`: Obtener detalles de una competición específica por su ID.
+      - **GET** `/competitions/:competitionId/standings`: Obtener la clasificación de la competición. Admite query `roundNumber`.
+      - **GET** `/competitions/:competitionId/top-scorers`: Obtener los máximos goleadores de una competición. Admite query `limit`.
+      - **GET** `/competitions/:competitionId/top-assists`: Obtener el top de asistencias (Actualmente no disponible en los datos).
+      - **GET** `/competitions/:competitionId/most-yellow-cards`: Obtener los jugadores con más tarjetas amarillas. Admite query `limit`.
+      - **GET** `/competitions/:competitionId/most-red-cards`: Obtener los jugadores con más tarjetas rojas. Admite query `limit`.
+    - events
+      - **GET** `/events`: Obtener lista de eventos/partidos o sucesos relevantes. _(Requiere Auth)_
+      - **GET** `/events/:id`: Obtener el detalle de un evento por ID. _(Requiere Auth)_
+      - **POST** `/events`: Crear un nuevo evento. _(Requiere Auth, Admin)_
+      - **PATCH** `/events/:id`: Actualizar detalles de un evento. _(Requiere Auth, Admin)_
+      - **DELETE** `/events/:id`: Eliminar un evento. _(Requiere Auth, Superadmin)_
+    - groups
+      - **GET** `/competitions/:competitionId/groups`: Obtener todos los grupos pertenecientes a una competición.
+      - **GET** `/groups/:groupId`: Obtener la cabecera o detalle general de un grupo específico.
+      - **GET** `/groups/:groupId/matches`: Obtener los partidos de un grupo. Admite query `round`, `page` y `limit`.
+      - **GET** `/groups/:groupId/matches/round/current`: Obtener los partidos de la jornada/ronda actual para un grupo.
+    - health
+      - **GET** `/health`: Endpoint de monitoreo que indica si el servidor está en funcionamiento y la hora del servidor.
+    - home
+      - **GET** `/home`: Obtener la información del panel o pantalla principal (Home) para el usuario. _(Requiere Auth)_
+    - leaderboard
+      - **GET** `/leaderboard`: Obtener las tablas de clasificación de la liga o torneo global. _(Requiere Auth)_
+    - matches
+      - **GET** `/matches/:matchId`: Obtener el detalle y la información principal de un partido.
+      - **GET** `/matches/:matchId/lineups`: Obtener las alineaciones de los equipos de un partido.
+      - **GET** `/matches/:matchId/events`: Obtener los eventos sucedidos dentro de un partido (goles, tarjetas, etc.).
+      - **GET** `/matches/:matchId/stats`: Obtener las estadísticas en tiempo real o finales de un partido.
+    - me
+      - **GET** `/me`: Obtener el perfil y datos del usuario actual autenticado. _(Requiere Auth)_
+      - **PATCH** `/me`: Actualizar el perfil del usuario actual. _(Requiere Auth)_
+      - **PATCH** `/me/password`: Cambiar la contraseña del usuario actual. _(Requiere Auth)_
+      - **GET** `/me/notifications/preferences`: Obtener las preferencias de notificación del usuario. _(Requiere Auth)_
+      - **PATCH** `/me/notifications/preferences`: Actualizar las preferencias de notificación. _(Requiere Auth)_
+    - mvpVotes
+      - **POST** `/mvp-votes`: Emitir un voto por el MVP de un partido. _(Requiere Auth)_
+      - **GET** `/mvp-votes/:matchId`: Obtener los resultados de las votaciones para el MVP de un partido. _(Requiere Auth)_
+    - news
+      - **GET** `/news`: Obtener el listado de noticias. _(Requiere Auth)_
+      - **GET** `/news/:id`: Obtener el detalle de una noticia específica. _(Requiere Auth)_
+      - **POST** `/news`: Crear una noticia nueva. _(Requiere Auth, Admin)_
+      - **PATCH** `/news/:id`: Actualizar una noticia existente. _(Requiere Auth, Admin)_
+      - **DELETE** `/news/:id`: Borrar una noticia. _(Requiere Auth, Superadmin)_
+    - notifications
+      - **GET** `/notifications`: Obtener todas las notificaciones del usuario. _(Requiere Auth)_
+      - **GET** `/notifications/unread`: Obtener únicamente las notificaciones no leídas. _(Requiere Auth)_
+      - **PUT** `/notifications/:notificationId`: Marcar una notificación específica como leída. _(Requiere Auth)_
+      - **DELETE** `/notifications/:notificationId`: Borrar una notificación. _(Requiere Auth)_
+      - **POST** `/notifications/mark-all-read`: Marcar todas las notificaciones del usuario como leídas. _(Requiere Auth)_
+    - players
+      - **GET** `/players/:id`: Obtener el detalle de un jugador en particular. _(Requiere Auth)_
+      - **GET** `/players/:playerId/statistics`: Obtener las estadísticas del jugador. Admite query `seasonId`. _(Requiere Auth)_
+      - **GET** `/players/:playerId/matches`: Obtener los partidos jugados por el jugador. Admite queries `seasonId`, `page`, `limit`. _(Requiere Auth)_
+    - points
+      - **GET** `/points/config`: Obtener la configuración o reglas de puntuación para las apuestas. _(Requiere Auth)_
+      - **GET** `/me/points`: Obtener el historial de puntos obtenidos del usuario actual. _(Requiere Auth)_
+      - **POST** `/me/daily-login`: Reclamar o procesar la recompensa de puntos por ingreso diario. _(Requiere Auth)_
+    - seasons
+      - **GET** `/seasons`: Listar todas las temporadas disponibles.
+      - **GET** `/seasons/current`: Obtener la información de la temporada actual.
+      - **GET** `/seasons/:seasonId`: Obtener detalles de una temporada específica por ID.
+    - teams
+      - **GET** `/teams/:teamId`: Obtener los detalles e información principal de un equipo. _(Requiere Auth)_
+      - **GET** `/teams/:id/squad`: Obtener la plantilla de jugadores de un equipo. _(Requiere Auth)_
+      - **GET** `/teams/:teamId/matches`: Obtener el historial de partidos de un equipo. Admite queries `page`, `limit`, `seasonId`. _(Requiere Auth)_
+      - **GET** `/teams/:teamId/statistics`: Obtener las estadísticas acumuladas de un equipo. Admite query `seasonId`. _(Requiere Auth)_
+    - topScorers
+      - **GET** `/top-scorers`: Obtener la lista general de los máximos goleadores. _(Requiere Auth)_
+    - users
+      - **GET** `/users/:userId`: Obtener el perfil público de otro usuario. _(Requiere Auth)_
+      - **GET** `/users/:userId/stats`: Obtener las estadísticas de apuestas u otros datos de un usuario por su ID. _(Requiere Auth)_
+      - **DELETE** `/users/me`: Eliminar (Soft delete) la cuenta del usuario actual. _(Requiere Auth)_
+      - **GET** `/admin/users`: Listar todos los usuarios de la plataforma. _(Requiere Auth, Admin)_
+      - **PUT** `/admin/users/:userId`: Actualizar o cambiar el rol de un usuario. _(Requiere Auth, Admin)_
+      - **DELETE** `/admin/users/:userId`: Eliminar por completo a un usuario. _(Requiere Auth, Superadmin)_

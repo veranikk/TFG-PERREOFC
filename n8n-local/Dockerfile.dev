@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# tsx instalado globalmente — más estable que ts-node/esm en Node 20 con ESM
+RUN npm install -g tsx
+
+COPY package.json ./
+RUN npm install
+
+# fastify-chat-server.ts se monta como volumen en runtime
+
+EXPOSE 3002
+
+# Llama tsx directamente, ignorando el script "dev" que usa ts-node/esm
+CMD ["tsx", "watch", "fastify-chat-server.ts"]

@@ -1,0 +1,31 @@
+# Dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# Builds
+dist/
+build/
+.expo/
+*.tsbuildinfo
+
+# Entorno — NUNCA subir al repo
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# n8n datos persistentes
+n8n-local/data/

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(netstat -ano)",
+      "PowerShell(Get-Process -Id 25620)",
+      "PowerShell(Stop-Process -Id 25620 -Force)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Usuario\\\\Documents\\\\TFG-PERREOFC\" -Filter \".env*\" -Recurse -Depth 2)",
+      "Bash(Select-Object FullName)",
+      "Bash(Remove-Item -Recurse -Force \"c:\\\\Users\\\\Usuario\\\\Documents\\\\TFG-PERREOFC\\\\perreofc-back\\\\.git\")",
+      "Bash(Remove-Item -Recurse -Force \"c:\\\\Users\\\\Usuario\\\\Documents\\\\TFG-PERREOFC\\\\TFG-PERREOFC-SCRAPEO\\\\.git\")",
+      "Bash(Remove-Item -Recurse -Force \"c:\\\\Users\\\\Usuario\\\\Documents\\\\TFG-PERREOFC\\\\perreofc-front\\\\.git\")",
+      "Bash(rm -rf \"c:\\\\Users\\\\Usuario\\\\Documents\\\\TFG-PERREOFC\\\\perreofc-back\\\\.git\")",
+      "Bash(rm -rf \"c:\\\\Users\\\\Usuario\\\\Documents\\\\TFG-PERREOFC\\\\TFG-PERREOFC-SCRAPEO\\\\.git\")",
+      "Bash(rm -rf \"c:\\\\Users\\\\Usuario\\\\Documents\\\\TFG-PERREOFC\\\\perreofc-front\\\\.git\")",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}
