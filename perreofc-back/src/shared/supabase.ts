@@ -4,6 +4,7 @@
  */
 
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import ws from 'ws';
 import { env } from './env.js';
 import type { Database } from './types/database.js';
 
@@ -19,6 +20,7 @@ export function getAdminClient(): SupabaseClient<Database> {
 
   _adminClient = createClient<Database>(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
+    realtime: { transport: ws },
   });
 
   return _adminClient;
@@ -31,6 +33,7 @@ export function getAnonClient() {
   if (!anonClient) {
     anonClient = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY, {
       auth: { persistSession: false, autoRefreshToken: false },
+      realtime: { transport: ws },
     });
   }
   return anonClient;
