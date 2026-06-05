@@ -153,7 +153,7 @@ function MatchCard({ match }: { match: Match }) {
 
 // ── Pantalla principal ────────────────────────────────────────────────────────
 export default function CalendarioScreen() {
-  const { colors } = useTheme();
+  const { colors, scheme } = useTheme();
   const { canEdit } = useRole();
   const { user } = useAuth();
 
@@ -426,7 +426,7 @@ export default function CalendarioScreen() {
 
       {/* Calendario */}
       <Calendar
-        key={calendarKey}
+        key={`${calendarKey}-${scheme}`}
         current={TODAY}
         onDayPress={handleDayPress}
         onMonthChange={(month: DateData) => setVisibleMonth(month.dateString.slice(0, 7))}

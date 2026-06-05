@@ -5,6 +5,7 @@
 
 import React, { createContext, useContext, useEffect } from 'react';
 import { Platform } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { themes, ThemeColors, ColorScheme } from './colors';
 import { useThemeStore } from '../store/useThemeStore';
 
@@ -46,6 +47,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeContext.Provider value={value}>
+      {/* Iconos de la status bar: oscuros sobre header claro (light), claros sobre header oscuro (dark) */}
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
       {children}
     </ThemeContext.Provider>
   );
