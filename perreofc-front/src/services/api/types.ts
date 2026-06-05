@@ -179,6 +179,7 @@ export interface Event {
   recurrence?: {
     type: 'weekly' | 'monthly' | 'custom';
     interval: number;
+    days?: number[];
     endDate?: string;
   };
 }

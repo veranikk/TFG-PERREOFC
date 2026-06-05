@@ -6,12 +6,52 @@
 // src/services/api.ts
 // Única puerta de entrada a los datos. Migrado a backend real (USE_MOCKS = false).
 
+import { addDays, addMonths, parseISO, format, getDay } from 'date-fns';
 import { User, Event, Match, NewsArticle, MediaImage, Player, Team, LeaderboardEntry, ClassificationEntry, StaffMember } from '../types';
 import { api as newApi, fetchClient, setAuthToken, setRefreshToken, setAuthTokenMemory, setRefreshTokenMemory, uploadAlbumPhoto } from './api/index';
 import type { Album, AlbumDetail, Photo } from './api/modules/albums';
 import { MOCK_IMAGES, mockLogin } from '../mocks';
 
 const USE_MOCKS = false;
+
+function expandRecurringEvents(events: Event[]): Event[] {
+  const result: Event[] = [];
+  const maxDate = addMonths(new Date(), 12); // máximo 12 meses adelante
+
+  for (const event of events) {
+    result.push(event);
+    if (!event.recurrence) continue;
+    console.log('[recurrence] evento:', event.title, JSON.stringify(event.recurrence));
+
+    const { type, interval, days, endDate } = event.recurrence;
+    const limit = endDate ? parseISO(endDate) : maxDate;
+    const effectiveLimit = limit < maxDate ? limit : maxDate;
+
+    if (type === 'weekly' || type === 'monthly') {
+      let current = parseISO(event.date);
+      for (let i = 0; i < 500; i++) {
+        current = type === 'weekly'
+          ? addDays(current, (interval || 1) * 7)
+          : addMonths(current, interval || 1);
+        if (current > effectiveLimit) break;
+        result.push({ ...event, date: format(current, 'yyyy-MM-dd') });
+      }
+    } else if (type === 'custom' && days && days.length > 0) {
+      // Para cada día de la semana objetivo, busca la primera ocurrencia
+      // después de la fecha base y repite cada 7 días
+      for (const targetDay of days) {
+        let d = addDays(parseISO(event.date), 1);
+        // avanza hasta el próximo targetDay
+        while (getDay(d) !== targetDay) d = addDays(d, 1);
+        while (d <= effectiveLimit) {
+          result.push({ ...event, date: format(d, 'yyyy-MM-dd') });
+          d = addDays(d, 7);
+        }
+      }
+    }
+  }
+  return result;
+}
 
 const RFFM_BASE = 'https://www.rffm.es';
 function normalizeRffmUrl(url?: string | null): string | undefined {
@@ -109,7 +149,7 @@ export const api = {
     if (USE_MOCKS) return [];
     try {
       const res = await newApi.events.getEvents(1, 100);
-      return res.data as unknown as Event[];
+      return expandRecurringEvents(res.data as unknown as Event[]);
     } catch { return []; }
   },
 

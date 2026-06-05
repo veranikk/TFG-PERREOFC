@@ -10,6 +10,30 @@ import { logAction } from '../logs/logsServices.js';
 
 type Role = Database['public']['Enums']['visibility_role'];
 
+// Codifica la recurrencia custom con sus días: 'custom:1,3,5'
+function encodeRecurrenceType(type: string, days?: number[]): string {
+  if (type === 'custom' && days && days.length > 0) {
+    return `custom:${[...days].sort((a, b) => a - b).join(',')}`;
+  }
+  return type;
+}
+
+// Decodifica de la BD al formato de respuesta
+function decodeRecurrence(
+  rawType: string | null,
+  interval: number | null,
+  endDate: string | null,
+): { type: string; interval: number; days?: number[]; endDate?: string } | undefined {
+  if (!rawType) return undefined;
+  let type = rawType;
+  let days: number[] | undefined;
+  if (rawType.startsWith('custom:')) {
+    type = 'custom';
+    days = rawType.slice(7).split(',').map(Number).filter((n) => !isNaN(n));
+  }
+  return { type, interval: interval ?? 1, ...(days ? { days } : {}), ...(endDate ? { endDate } : {}) };
+}
+
 export async function getEvents(userRole: Role, params: {
   from?: string; to?: string; type?: string;
 }) {
@@ -26,7 +50,7 @@ export async function getEvents(userRole: Role, params: {
 
   let query = supabase
     .from('events')
-    .select('id, title, description, type, date, time, location, match_id')
+    .select('id, title, description, type, date, time, location, match_id, recurrence_type, recurrence_interval, recurrence_end_date')
     .is('deleted_at', null)
     .in('id', ids)
     .order('date', { ascending: true });
@@ -54,6 +78,7 @@ export async function getEvents(userRole: Role, params: {
       type: e.type, date: e.date, time: e.time, location: e.location,
       matchId: e.match_id, isCancelled: false,
       visibility: visByEvent.get(e.id) ?? [],
+      recurrence: decodeRecurrence(e.recurrence_type, e.recurrence_interval, e.recurrence_end_date),
     })),
   };
 }
@@ -91,11 +116,7 @@ export async function getEventById(id: string, userRole: Role) {
 
   const { data: allVis } = await supabase.from('event_visibility').select('role').eq('event_id', id);
 
-  const recurrence = data.recurrence_type ? {
-    type:     data.recurrence_type,
-    interval: data.recurrence_interval ?? 1,
-    endDate:  data.recurrence_end_date ?? undefined,
-  } : undefined;
+  const recurrence = decodeRecurrence(data.recurrence_type, data.recurrence_interval, data.recurrence_end_date);
 
   return {
     id: data.id, title: data.title, description: data.description,
@@ -118,7 +139,7 @@ export async function createEvent(userId: string, username: string, fields: {
   title: string; description?: string | null; type: EventType;
   date: string; time?: string | null; location?: string | null;
   matchId?: number | null; visibility: Role[];
-  recurrence?: { type: string; interval: number; endDate?: string } | null;
+  recurrence?: { type: string; interval: number; days?: number[]; endDate?: string } | null;
 }) {
   const supabase = getAdminClient();
 
@@ -129,7 +150,7 @@ export async function createEvent(userId: string, username: string, fields: {
       type: fields.type, date: fields.date, time: fields.time ?? null,
       location: fields.location ?? null, match_id: fields.matchId ?? null,
       created_by: userId,
-      recurrence_type:     fields.recurrence?.type ?? null,
+      recurrence_type:     fields.recurrence ? encodeRecurrenceType(fields.recurrence.type, fields.recurrence.days) : null,
       recurrence_interval: fields.recurrence?.interval ?? null,
       recurrence_end_date: fields.recurrence?.endDate ?? null,
     })
@@ -152,7 +173,7 @@ export async function updateEvent(userId: string, username: string, id: string, 
   title: string; description: string | null; type: EventType;
   date: string; time: string | null; location: string | null;
   matchId: number | null; visibility: Role[];
-  recurrence: { type: string; interval: number; endDate?: string } | null;
+  recurrence: { type: string; interval: number; days?: number[]; endDate?: string } | null;
 }>) {
   const supabase = getAdminClient();
 
@@ -168,7 +189,7 @@ export async function updateEvent(userId: string, username: string, id: string, 
   if (fields.location !== undefined) update.location = fields.location;
   if (fields.matchId !== undefined) update.match_id = fields.matchId;
   if (fields.recurrence !== undefined) {
-    (update as any).recurrence_type     = fields.recurrence?.type ?? null;
+    (update as any).recurrence_type     = fields.recurrence ? encodeRecurrenceType(fields.recurrence.type, fields.recurrence.days) : null;
     (update as any).recurrence_interval = fields.recurrence?.interval ?? null;
     (update as any).recurrence_end_date = fields.recurrence?.endDate ?? null;
   }

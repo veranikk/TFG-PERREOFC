@@ -67,6 +67,7 @@ export interface MatchStaffEntry {
 export interface EventRecurrence {
   type: 'weekly' | 'monthly' | 'custom';
   interval: number;
+  days?: number[];         // 0=Dom … 6=Sáb (solo para type='custom')
   endDate?: string;        // 'yyyy-MM-dd'
 }
 

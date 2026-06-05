@@ -15,7 +15,7 @@ import { typography } from '../../theme/typography';
 
 // Contraseña de las cuentas dev — definir EXPO_DEV_PASSWORD en el .env local (no hacer commit).
 // Las cuentas deben tener contraseñas distintas de producción.
-const DEV_PASSWORD = process.env.EXPO_DEV_PASSWORD ?? '';
+const DEV_PASSWORD = process.env.EXPO_PUBLIC_DEV_PASSWORD ?? '';
 
 const DEV_ACCOUNTS = [
   { email: 'aficionado@perreofc.com',   password: DEV_PASSWORD, role: 'aficionado', label: 'Aficionado' },

@@ -20,6 +20,7 @@ export const eventIdParamsSchema = z.object({
 const recurrenceSchema = z.object({
   type:     z.enum(['weekly', 'monthly', 'custom']),
   interval: z.number().int().min(1),
+  days:     z.array(z.number().int().min(0).max(6)).optional(), // 0=Dom … 6=Sáb
   endDate:  z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
 }).optional();
 

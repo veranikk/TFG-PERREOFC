@@ -83,8 +83,9 @@ export async function uploadAlbumPhoto(albumId: string, localUri: string, descri
     throw new Error((err as any).error ?? `Upload failed: ${res.status}`);
   }
   const json = await res.json();
-  // Backend responde: { success: true, data: Photo }
-  return (json?.data ?? json) as Photo;
+  // Backend responde: { success: true, data: Photo[] }
+  const result = json?.data ?? json;
+  return (Array.isArray(result) ? result[0] : result) as Photo;
 }
 
 /**
